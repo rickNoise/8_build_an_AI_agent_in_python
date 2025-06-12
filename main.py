@@ -1,6 +1,7 @@
 import os, sys
 from dotenv import load_dotenv
 from google import genai
+from google.genai import types
 
 
 def main():
@@ -17,9 +18,13 @@ def main():
         sys.exit(1)
     user_prompt = " ".join(args)
 
+    messages = [
+        types.Content(role="user", parts=[types.Part(text=user_prompt)]),
+    ]
+
     response = client.models.generate_content(
         model='gemini-2.0-flash-001',
-        contents=user_prompt
+        contents=messages,
     )
     
     print(f"Response: {response.text}")
