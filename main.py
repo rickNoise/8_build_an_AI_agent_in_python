@@ -8,9 +8,14 @@ def main():
     api_key = os.environ.get("GEMINI_API_KEY")
     client = genai.Client(api_key=api_key)
 
-    if len(sys.argv) < 2:
-        raise ValueError("Prompt not provided as a command line argument.")
-    user_prompt = sys.argv[1]
+    args = sys.argv[1:]
+
+    if not args:
+        print("AI Code Assistant")
+        print("\nUsage: python main.py 'your prompt here'")
+        print("Example: python main.py 'How do I build a calculator app?'")
+        sys.exit(1)
+    user_prompt = " ".join(args)
 
     response = client.models.generate_content(
         model='gemini-2.0-flash-001',
